@@ -1,25 +1,29 @@
 {
     "token": "",
     "owner_id": "",
+    "bot_id": "",
     "command_prefix": "$",
-    
     "lastfmApiKey": "",
-
+    "ytgamedirectory": "https://www.youtube.com/channel/example/live",
+    "streamdiscordchannel": "",
+    "twitterkey": "IQKbtAYlXLripLGPWd0HUA",
+    "twittersecret": "GgDYlkSvaPxGxC4X8liwpUoqKwwr3lCADbz8A7ADU",
+    "twitterid": "",
+    "twitterhandle": "",
+    "twitterdiscordchannel": "",
     "dab_emoji": "",
-
-    "ytapikey":"",
-    "Playing" : false,
-    "queue"   : [],
-    "dispatcher":null,
-
+    "ytapikey": "",
+    "Playing": false,
+    "queue": [],
+    "dispatcher": null,
     "server_prefix": {},
     "ignore": {
         "server": [],
         "channel": [],
         "user": []
     },
-
-    "users": {},
-
+    "users": {
+        }
+    },
     "responses": {}
 }
