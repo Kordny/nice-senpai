@@ -1,6 +1,7 @@
 # Nice-Senpai
 nice bot
 does dabs and stuff...
+fork with added twitter and youtube live stream updates
 
 ## Installation
 >For running it and or testing / developing
