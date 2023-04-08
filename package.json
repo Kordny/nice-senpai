@@ -4,7 +4,7 @@
   "description": "nice bot",
   "main": "senpai.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node senpai.js"
   },
   "repository": {
     "type": "git",
