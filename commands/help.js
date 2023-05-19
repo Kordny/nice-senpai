@@ -1,9 +1,6 @@
 module.exports = {
     title: "Help",
-    desc: "Display all commands or show more info about a specified one.\n" +
-          "If you encounter any issues please create an issue on:\n" +
-          "https://github.com/aqua-rar/Nice-Senpai\n" +
-          "Or contact @aqua\\\\\\スケルトン#9099",
+    desc: "Display all commands or show more info about a specified one.\n",
     syntax: "`{prefix}help` to show this and a list of available commands.\n" +
             "`{prefix}help <command>` shows more information about specified command.",
     alias: ["help", "halp", "h", "imdumbplshelpme"],

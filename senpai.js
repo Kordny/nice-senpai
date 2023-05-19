@@ -5,6 +5,7 @@ const responses = require('./responses')
 const config = require('./config.json')
 const client = new Discord.Client()
 const ytlivefetch = require('./ytlivefetch.js')
+const twitchfetch = require('./twitchfetch.js')
 const ytpostedids = require('./ytids.json');
 const tweetpostedids = require('./tweetids.json');
 const { TwitterApi } = require('twitter-api-v2');
@@ -38,7 +39,9 @@ client.on('ready', function () {
 				console.log('Saved yt id file.');
 			})
 		}
-	});
+	}).catch(function(error) {
+        console.log(error);
+      });
   } catch (err) {
     console.error(err);
   }
@@ -103,6 +106,50 @@ client.on('ready', function () {
     console.error(err);
   }} fetchTweets();
   setInterval(fetchTweets , 30000);
+  
+  //function to check for new twitch streams
+  function fetchTwitch() {
+  try {	  
+	var twitchids = [];
+	//function for makin a nice array
+	function arraytwitch (channelID) {
+		twitchids.push(channelID);
+	}
+	//run twitchfetching and then do shit
+	filtrtwitchers = twitchfetch.fetchTwitchIds().then((result) => {
+		result.forEach(arraytwitch);
+		client.channels.find(val => val.id === config.streamdiscordchannel).fetchMessages()
+		.then(messages => {
+			const twitchmessages = messages.filter(m => m.author.id === config.bot_id && m.content.startsWith("https://www.twitch.tv"));
+			twitchids.forEach((twitchID) => {
+				const foundmessages = messages.filter(m => m.author.id === config.bot_id && m.content === "https://www.twitch.tv" + twitchID).map(x => x);
+				if(foundmessages[0] !== undefined) { 
+					//maybe do something perhpas hmhmhm?
+				}
+				else {
+					client.channels.find(val => val.id === config.streamdiscordchannel).send("https://www.twitch.tv" + twitchID);
+					console.log('Posted stream id ' + twitchID)
+				};		
+			});
+			//change it so it doesnt delete very fresh posts...
+			var ts = Math.round(new Date().getTime());
+			//discord message timestamp is in miliseconds
+			var tsTwohoursago = ts - (2 * 3600 * 1000);
+			twitchmessages.sweep(x => twitchids.includes(x.content.replace('https://www.twitch.tv','')) || x.createdTimestamp >=  tsTwohoursago);
+			twitchmessages.deleteAll();
+		}).catch(function(error) {
+        console.log(error);
+		});
+	}).catch(function(error) {
+        console.log(error);
+      });
+  } catch (err) {
+    console.error(err);
+  }
+  }
+  fetchTwitch();
+  //miliseconds because we dont care about readability
+  setInterval(fetchTwitch , 30000);
 })
 
 client.on('message', function (message) {

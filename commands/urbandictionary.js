@@ -46,33 +46,12 @@ module.exports = {
       if (err) return message.channel.send(`Error:\`\`\`\n${String(err)}\`\`\``)
       const results = JSON.parse(body).list
       let index = 0
+		if(results[0] === undefined) { 
+			return message.channel.send('Query not found.') 
+		} else {
+			return message.channel.send('', buildEmbed(results[0], 0, 0)) 
+		}
 
-      if (message.content.split(' ')[0].slice(-1) === '2') {
-        return message.channel.send('', buildEmbed(results[0], 0, 0))
-      }
-
-      function awaitReactions (response) {
-        response.react('◀')
-          .then(() => response.react('▶'))
-          .then(() => response.react('🔀'))
-          .then(() => {
-            response.createReactionCollector(
-              (reaction, user) => ['◀', '▶', '🔀'].indexOf(reaction.emoji.name) >= 0 && user.id === message.author.id,
-              { max: 1, time: 30000 }
-            ).on('collect', reaction => {
-              if (reaction.emoji.name === '◀') index--
-              else if (reaction.emoji.name === '▶') index++
-              else if (reaction.emoji.name === '🔀') index = Math.floor(Math.random() * results.length)
-              index = ((index % results.length) + results.length) % results.length
-              response.edit(buildEmbed(results[index], index, results.length))
-              reaction.remove(message.author).then(() => awaitReactions(response)).catch(() => awaitReactions(response))
-            }).on('end', (collected, reason) => {
-              if (reason !== 'limit') response.clearReactions().catch(() => {})
-            })
-          })
-      }
-
-      message.channel.send(buildEmbed(results[0], 0, 0)).then(awaitReactions)
     })
   }
 }
