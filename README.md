@@ -1,7 +1,8 @@
 # Nice-Senpai
 nice bot
 does dabs and stuff...
-fork with added twitter and youtube live stream updates
+fork with added twitter and live stream updates
+removed commands that need admin permissions
 
 ## Installation
 >For running it and or testing / developing
