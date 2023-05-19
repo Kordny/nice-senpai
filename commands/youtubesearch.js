@@ -28,37 +28,9 @@ module.exports = {
       var results = videos.length
       var index = 0
 
-      if (message.content.split(' ')[0].slice(-1) === '2') {
         index = Math.floor(Math.random() * Math.floor(results / 5))
         return message.channel.send(`${query}: ${index} / ${results}\n${videos[index]}`)
-      }
 
-      function awaitReactions (response) {
-        response.react('⏪')
-          .then(() => response.react('◀'))
-          .then(() => response.react('▶'))
-          .then(() => response.react('⏩'))
-          .then(() => response.react('🔀'))
-          .then(() => {
-            response.createReactionCollector(
-              (reaction, user) => ['⏪', '◀', '▶', '⏩', '🔀'].indexOf(reaction.emoji.name) >= 0 && user.id === message.author.id,
-              { max: 1, time: 30000 }
-            ).on('collect', reaction => {
-              if (reaction.emoji.name === '⏪') index -= 10
-              else if (reaction.emoji.name === '◀') index--
-              else if (reaction.emoji.name === '▶') index++
-              else if (reaction.emoji.name === '⏩') index += 10
-              else if (reaction.emoji.name === '🔀') index = Math.floor(Math.random() * results)
-              index = ((index % results) + results) % results
-              response.edit(`${query}: ${index} / ${results}\n${videos[index]}`)
-              response.clearReactions().then(awaitReactions)
-            }).on('end', (collected, reason) => {
-              if (reason !== 'limit') response.clearReactions()
-            })
-          })
-      }
-
-      message.channel.send(`${query}: ${index} / ${results}\n${videos[index]}`).then(awaitReactions)
     })
   }
 }
